@@ -1,0 +1,28 @@
+run file cuda_test.py, e.g. "python cuda_test.py"
+
+If the answer is "cuda" you are done. Enjoy training!
+
+If the answer is "CPU" or "Torch not compiled with CUDA Support" the following steps are required:
+
+1) Go to https://pytorch.org/get-started/locally/ and select the following configuration:
+
+(Versions are shown as they were when writing this guide, you might need to adapt)
+
+PyTorch Build: Stable (1.11.0)
+Your OS: Windows
+Package: Pip
+Language: Python
+Compute Platform: CUDA 11.3
+
+Then copy the given command, which was the following when writing this document:
+
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+
+===========================================
+DO NOT INSTALL YET ! JUST SAVE THE COMMAND!
+===========================================
+
+2) Download & install the required CUDA Toolkit Version (11.3) from https://developer.nvidia.com/cuda-toolkit-archive 
+3) UNINSTALL the currently installed version of Torch: pip uninstall torch
+4) Now execute the command from above to install pytorch with cuda support
+5) re-run cuda_test.py
