@@ -1,3 +1,8 @@
-stable-baselines3
-rlgym
-rlgym-tools
+rlgym==1.2
+rlgym_tools
+rlgym_compat
+stable_baselines
+stable_baselines3
+tensorboard
+numpy
+
