@@ -22,7 +22,7 @@ if __name__ == '__main__':  # Required for multiprocessing
 
     fps = 120 / frame_skip
     gamma = np.exp(np.log(0.5) / (fps * half_life_seconds))  # Quick mafs
-    agents_per_match = 2
+    agents_per_match = 6
     num_instances = 1
     target_steps = 1_000_000
     steps = target_steps // (num_instances * agents_per_match) #making sure the experience counts line up properly
@@ -35,8 +35,9 @@ if __name__ == '__main__':  # Required for multiprocessing
 
     def get_match():  # Need to use a function so that each instance can call it and produce their own objects
         return Match(
-            team_size=1,
+            team_size=3,
             tick_skip=frame_skip,
+            spawn_opponents=True,
             reward_function=CombinedReward(
             (
                 VelocityPlayerToBallReward(),
