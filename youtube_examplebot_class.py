@@ -135,7 +135,8 @@ class YoutubeExampleBot(object):
             )
 
     #runs the actual training
-    def train(self) -> None: # Save model every so often
+    def train(self) -> None: 
+        # Save model every so often
         # Divide by num_envs (number of agents) because callback only increments every time all agents have taken a step
         # This saves to specified folder with a specified name
         self.callback = CheckpointCallback(round(5_000_000 / self.env.num_envs), save_path="models", name_prefix="rl_model")
@@ -146,12 +147,14 @@ class YoutubeExampleBot(object):
                 #may need to reset timesteps when you're running a different number of instances than when you saved the model
                 self.model.learn(self.training_interval, callback=self.callback, reset_num_timesteps=False) #can ignore callback if training_interval < callback target
                 self.model.save("models/exit_save")
-                if self.model.num_timesteps >= mmr_model_target_count:
-                    self.model.save(f"mmr_models/{model.num_timesteps}")
+                if self.model.num_timesteps >= self.mmr_model_target_count:
+                    self.model.save(f"mmr_models/{self.model.num_timesteps}")
                     self.mmr_model_target_count += self.mmr_save_frequency
 
         except KeyboardInterrupt:
             print("Exiting training")
+            self.exit_save(self.model)
+            self.restore_rl_config()
 
         print("Saving model")
         self.exit_save(self.model)
@@ -160,19 +163,21 @@ class YoutubeExampleBot(object):
 
     #copies ini file optimized for training
     def prepare_rl_config(self) -> None :
-        print(f"Copying TRAINING INI RL config folder")
+        print(f"Copying TRAINING INI to RL config folder...")
         try:
             shutil.copyfile(self.rl_training_ini, self.rl_config_ini)
+            print(f"...Done")
         except:
             print(f"Error copying TRAINING INI")
             
     #restores original ini file for gaming
     def restore_rl_config(self) -> None :
-        print(f"Restoring ORIGINAL INI...") 
+        print(f"Restoring ORIGINAL INI to RL config folder...") 
         try:
             shutil.copyfile(self.rl_original_ini, self.rl_config_ini)
+            print(f"Done...")
         except:
-            print(f"Error restoring ORIGINAL INI File")
+            print(f"Error restoring ORIGINAL INI")
 
 
 
